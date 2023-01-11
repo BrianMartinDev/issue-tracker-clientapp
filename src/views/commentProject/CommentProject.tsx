@@ -1,4 +1,4 @@
-import fetchCommentProjects from "../../hooks/CommentProjects";
+import fetchCommentProjects from "../../hooks/CommentProjectHooks";
 
 
 const CommentProjectsList = () => {

@@ -1,8 +1,17 @@
-import fetchCommentIssues from '../../hooks/CommentIssues';
+import { useNavigate } from 'react-router-dom';
+import ApiStatus from '../../ApiStatus';
+import fetchCommentProjects from '../../hooks/CommentProjectHooks';
 
-const CommentIssuesList = () => {
-    const {data} = fetchCommentIssues();
+const CommentProjectsList = () => {
+    const nav = useNavigate();
 
+    
+    const { data, status, isSuccess } = fetchCommentProjects();
+
+    if (!isSuccess) {
+        return <ApiStatus status={status}></ApiStatus>
+    }
+    
     return (
         <table className="table">
             <thead>
@@ -14,7 +23,7 @@ const CommentIssuesList = () => {
             </thead>
             <tbody>
                 {data && data.map((h) => (
-                    <tr key={h.id}>
+                    <tr key={h.id} onClick={() => nav(`/ComentProject/${h.id}`)}>
                         <td>{h.id}</td>
                         <td>{h.name}</td>
                         <td>{h.description}</td>
@@ -25,4 +34,4 @@ const CommentIssuesList = () => {
     );
 }
 
-export default CommentIssuesList; 
+export default CommentProjectsList; 

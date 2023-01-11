@@ -1,9 +1,16 @@
+import { useNavigate } from "react-router-dom";
+import ApiStatus from "../../ApiStatus";
 import fetchIssues from "../../hooks/IssueHooks";
 
-
 const IssuesList = () => {
-    const {data} = fetchIssues();
- 
+    const nav = useNavigate();
+
+    const { data, status, isSuccess } = fetchIssues();
+
+    if (!isSuccess) {
+        return <ApiStatus status={status}></ApiStatus>
+    }
+
     return (
         <table className="table">
             <thead>
@@ -15,11 +22,11 @@ const IssuesList = () => {
             </thead>
             <tbody>
                 {data && data.map((h) => (
-                    <tr key={h.id}>
+                    <tr key={h.id} onClick={() => nav(`/Issue/${h.id}`)}>
                         <td>{h.id}</td>
                         <td>{h.name}</td>
                         <td>{h.description}</td>
-                      </tr>
+                    </tr>
                 ))}
             </tbody>
         </table>

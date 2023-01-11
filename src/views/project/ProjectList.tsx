@@ -1,7 +1,15 @@
+import { useNavigate } from 'react-router-dom';
+import ApiStatus from '../../ApiStatus';
 import fetchProjects from '../../hooks/ProjectHooks';
 
 const ProjectList = () => {
-    const {data} = fetchProjects();
+
+    const nav = useNavigate();
+
+    const { data, status, isSuccess } = fetchProjects();
+    if (!isSuccess) {
+        return <ApiStatus status={status}></ApiStatus>
+    }
 
     return (
         <table className="table">
@@ -14,7 +22,7 @@ const ProjectList = () => {
             </thead>
             <tbody>
                 {data && data.map((h) => (
-                    <tr key={h.id}>
+                    <tr key={h.id} onClick={() => nav(`/Project/${h.id}`)}>
                         <td>{h.id}</td>
                         <td>{h.name}</td>
                         <td>{h.description}</td>
